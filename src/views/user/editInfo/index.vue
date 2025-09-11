@@ -226,6 +226,7 @@
         <a-option value="mobile">Mobile</a-option>
         <a-option value="pm">PM</a-option>
         <a-option value="design">Design</a-option>
+        <a-option value="blockchain">BlockChain</a-option>
       </a-select>
     </a-form-item>
     <a-form-item
