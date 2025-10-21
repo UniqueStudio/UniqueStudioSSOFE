@@ -29,14 +29,7 @@ export default [
       '**/build/**',
     ],
   },
-
-  // 2. Vue 3 推荐配置 (基础配置先加载)
-  ...vue.configs['flat/recommended'],
-
-  // 3. Airbnb 基础配置
-  ...airbnbConfigs.base.recommended,
-
-  // 4. TypeScript 推荐配置
+  // 2. TypeScript 推荐配置
   {
     files: ['**/*.{ts,tsx,vue}'],
     languageOptions: {
@@ -54,6 +47,19 @@ export default [
       ...typescriptEslint.configs.recommended.rules,
     },
   },
+
+  // 3. Vue 3 推荐配置 (基础配置先加载)
+  ...vue.configs['flat/recommended'],
+
+  // 4. Airbnb 基础配置
+  // 下面的抽象操作时让规则对 vue 文件生效
+  // 原谅我的炫技，不过确实很简洁
+  ...airbnbConfigs.base.recommended.map((rule) => ({
+    ...rule,
+    files: rule.files.some((s) => s.includes('ts'))
+      ? [...rule.files, '**/*.vue']
+      : rule.files,
+  })),
 
   // 5. 自定义配置和规则覆盖 (最后加载以覆盖之前的规则)
   {
@@ -123,6 +129,8 @@ export default [
 
       // TypeScript 规则覆盖
       '@typescript-eslint/ban-ts-comment': 0, // 允许 @ts-ignore
+      // 解决莫名其妙的，对于 函数参数未使用 的报错
+      'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': 1,
       '@typescript-eslint/no-empty-function': 1,
       '@typescript-eslint/no-explicit-any': 0,
@@ -142,11 +150,8 @@ export default [
       ],
       'import/no-extraneous-dependencies': 0,
       'import/prefer-default-export': 0,
-
-      // Prettier 规则 (放在最后以避免冲突)
-      'prettier/prettier': 1,
     },
   },
-  // 按要求放在最后
+  // Prettier 配置 (必须放在最后以禁用所有格式化相关的 ESLint 规则)
   prettier,
 ] as Linter.Config[];
