@@ -1,6 +1,4 @@
-import {
-  LogoutResponse,
-} from '@/constants/httpMsg/register/LogoutStatusMsg';
+import { LogoutResponse } from '@/constants/httpMsg/register/LogoutStatusMsg';
 
 import request from '../_request';
 

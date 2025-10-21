@@ -14,7 +14,7 @@
           <Menu />
         </div>
       </a-layout-sider>
-      <a-layout class="layout-content ">
+      <a-layout class="layout-content">
         <a-layout-content class="overflow-x-auto">
           <page-layout />
         </a-layout-content>
@@ -39,7 +39,6 @@ const menuWidth = computed(() => {
   // 48是左侧菜单收起的宽度
   return appStore.menuCollapse ? 48 : appStore.menuWidth;
 });
-
 </script>
 
 <style scoped lang="less">

@@ -9,6 +9,7 @@ import './styles/tailwind.css';
 
 // 全量引入样式
 import '@arco-design/web-vue/dist/arco.css';
+
 const pinia = createPinia();
 const app = createApp(App);
 app.use(ArcoVue, {});

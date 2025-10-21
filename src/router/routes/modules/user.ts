@@ -1,8 +1,6 @@
-import { DEFAULT_LAYOUT } from '../base';
 import { getInfo } from '@/api/getInfo';
-import type {
-  getInfoResponse
-} from '@/constants/httpMsg/register/InfoStatusMsg';
+import type { getInfoResponse } from '@/constants/httpMsg/register/InfoStatusMsg';
+import { DEFAULT_LAYOUT } from '../base';
 
 const DASHBOARD = {
   path: '/user',
@@ -27,15 +25,16 @@ const DASHBOARD = {
   ],
   beforeEnter(_to: any, _from: any, next: (arg0?: string | undefined) => void) {
     const res: Promise<getInfoResponse> = getInfo();
-    res.then((response) => {
-      if (response !== null) {
-        next();
-      }
-      else next('/login');
-    }).catch((err) => {
-      console.error(err);
-    }); 
-  }
+    res
+      .then((response) => {
+        if (response !== null) {
+          next();
+        } else next('/login');
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  },
 };
 
 export default DASHBOARD;

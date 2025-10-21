@@ -15,7 +15,7 @@ const useLogoutStore = defineStore('logout', {
       res.then((response) => {
         if (response !== null) {
           Message.success(i18n.global.t('logout.success'));
-          router.push('/login')
+          router.push('/login');
         }
       });
     },

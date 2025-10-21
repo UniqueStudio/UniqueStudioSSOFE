@@ -57,9 +57,5 @@ export default function request<T = object>(config: AxiosRequestConfig) {
     },
   );
 
-  return new Promise<HttpRes<T>>(async (resolve) => {
-    // 这里的res的类型为 data ｜ null ，在请求的时候记得判断是否为null
-    const res = await instance(config);
-    resolve(res as unknown as HttpRes<T>);
-  });
+  return instance(config) as Promise<HttpRes<T>>;
 }

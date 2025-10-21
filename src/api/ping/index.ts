@@ -1,6 +1,4 @@
-import type {
-  PingResponse,
-} from '@/constants/httpMsg/register/PingStatusMsg';
+import type { PingResponse } from '@/constants/httpMsg/register/PingStatusMsg';
 
 import request from '../_request';
 

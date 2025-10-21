@@ -5,9 +5,7 @@ import {
 
 import request from '../_request';
 
-export async function edit(
-  data: EditRequest,
-): Promise<EditResponse> {
+export async function edit(data: EditRequest): Promise<EditResponse> {
   const res: EditResponse = await request({
     url: 'v1/user/my',
     method: 'PUT',

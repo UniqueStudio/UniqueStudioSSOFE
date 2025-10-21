@@ -22,7 +22,7 @@
       :rules="[{ required: true, message: $t('register.form.gender.errMsg') }]"
     >
       <a-select
-        v-model="<number>registerFormInfo.gender"
+        v-model="registerFormInfo.gender"
         size="large"
         :placeholder="$t('register.form.gender.placeholder')"
         allow-clear
@@ -159,9 +159,9 @@ const { registerFormInfo, isSendValidateCode, buttonContent } =
   storeToRefs(registerStore);
 
 const handleKeyPress = (e: KeyboardEvent) => {
-if (e.key === 'Enter') {
-  handleRegister(registerForm.value)
-}
+  if (e.key === 'Enter') {
+    handleRegister(registerForm.value);
+  }
 };
 
 onMounted(() => {
@@ -185,8 +185,8 @@ onUnmounted(() => {
 }
 
 @media (max-width: 600px) {
-    .input {
-      width: 80%;
-    }
+  .input {
+    width: 80%;
   }
+}
 </style>
