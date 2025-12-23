@@ -19,6 +19,7 @@ export interface UserInfo {
   phoneNumber: InfoData['phone'];
   email: InfoData['email'];
   roles: InfoData['roles'];
+  groups: InfoData['groups'];
 }
 
 export interface PermissionFormInfo {

@@ -175,118 +175,11 @@
     </template>
   </a-modal>
 
-  <a-modal
-    v-model:visible="isPermissionOpen"
-    :hide-cancel="true"
-    :modal-style="{ maxHeight: '700px', width: isSmall ? '300px' : '' }"
-  >
-    <template #title>
-      {{ $t('edit.permission') }}
-    </template>
-    <a-form ref="permissionForm" :model="permissionFormInfo" layout="vertical">
-      <a-form-item
-        field="phone"
-        hide-label
-        :rules="[
-          { required: true, message: $t('edit.form.phoneNumber.errMsg') },
-          {
-            match: /^1[3-9]\d{9}$/,
-            message: $t('edit.form.phoneNumber.formatErr'),
-          },
-        ]"
-      >
-        <a-input
-          v-model="permissionFormInfo.phone"
-          size="large"
-          :placeholder="$t('edit.form.phoneNumber')"
-          allow-clear
-        >
-          <template #prefix>
-            <icon-phone />
-          </template>
-        </a-input>
-      </a-form-item>
-      <a-form-item
-        field="joinTime"
-        hide-label
-        :rules="[
-          { required: true, message: $t('edit.form.joinTime.errMsg') },
-          {
-            match: /^\d{4}[ASC]$/,
-            message: $t('edit.form.joinTime.formatErr'),
-          },
-        ]"
-      >
-        <a-input
-          v-model="permissionFormInfo.joinTime"
-          size="large"
-          :placeholder="$t('edit.form.joinTime.placeholder')"
-          allow-clear
-        >
-          <template #prefix>
-            <icon-clock-circle />
-          </template>
-        </a-input>
-      </a-form-item>
-      <a-form-item
-        field="group"
-        hide-label
-        :rules="[{ required: true, message: $t('edit.form.group.errMsg') }]"
-      >
-        <a-select
-          v-model="permissionFormInfo.group as string"
-          size="large"
-          :placeholder="$t('edit.form.group.placeholder')"
-          allow-clear
-        >
-          <template #prefix>
-            <icon-user-group />
-          </template>
-          <a-option value="web">Web</a-option>
-          <a-option value="ai">AI</a-option>
-          <a-option value="lab">Lab</a-option>
-          <a-option value="game">Game</a-option>
-          <a-option value="mobile">Mobile</a-option>
-          <a-option value="pm">PM</a-option>
-          <a-option value="design">Design</a-option>
-          <a-option value="blockchain">BlockChain</a-option>
-        </a-select>
-      </a-form-item>
-      <a-form-item
-        field="role"
-        hide-label
-        :rules="[{ required: true, message: $t('edit.form.role.errMsg') }]"
-      >
-        <a-select
-          v-model="permissionFormInfo.role as string"
-          size="large"
-          :placeholder="$t('edit.form.role.placeholder')"
-          allow-clear
-        >
-          <template #prefix>
-            <icon-user />
-          </template>
-          <a-option value="member">member</a-option>
-          <a-option value="admin">admin</a-option>
-        </a-select>
-      </a-form-item>
-    </a-form>
-    <a-button
-      type="primary"
-      long
-      size="large"
-      @click="handlePermission(permissionForm)"
-    >
-      {{ $t('register.form.confirm') }}
-    </a-button>
-    <template #footer>
-      {{ '' }}
-    </template>
-  </a-modal>
+  <PermissionModal :is-small="isSmall" />
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, Ref } from 'vue';
+import { ref, computed, onMounted, onUnmounted, Ref, provide } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 
@@ -295,19 +188,20 @@ import { throttle } from 'lodash';
 import { Gender } from './type';
 // store
 import { useEditStore } from './store';
+import PermissionModal from './PermissionModal.vue';
 
 const { t } = useI18n();
 
 const editStore = useEditStore();
-const { handleEdit, handlePermission } = editStore;
+const { handleEdit } = editStore;
 
 const editForm = ref(null);
-const permissionForm = ref(null);
 
-const { editFormInfo, permissionFormInfo, userInfo } = storeToRefs(editStore);
+const { editFormInfo, userInfo } = storeToRefs(editStore);
 
 const isEditOpen = ref(false);
 const isPermissionOpen = ref(false);
+provide('isPermissionOpen', isPermissionOpen);
 
 const openEditModel = () => {
   isEditOpen.value = true;

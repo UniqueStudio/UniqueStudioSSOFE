@@ -39,6 +39,7 @@ const useEditStore = defineStore('edit', () => {
     phoneNumber: '',
     email: '',
     roles: [],
+    groups: [],
   });
   const avatarName = computed(() => userInfo.name.slice(0, 1));
 
@@ -85,26 +86,15 @@ const useEditStore = defineStore('edit', () => {
     });
   }
 
-  function handlePermission(permissionFormRef: any) {
-    permissionFormRef.validate().then((ValidatedError: ValidatedError) => {
-      if (ValidatedError) {
-        return;
+  function handlePermission(data: PermissionRequest) {
+    const res: Promise<PermissionResponse> = permission(data);
+    res.then((response) => {
+      if (response !== null) {
+        Message.success(`${i18n.global.t('edit.success')}:${data.phone}`);
+        router.push('/user/edit-info').then(() => {
+          router.go(0);
+        });
       }
-      const oPostData: PermissionRequest = {
-        phone: permissionFormInfo.phone,
-        joinTime: permissionFormInfo.joinTime,
-        group: permissionFormInfo.group,
-        role: permissionFormInfo.role,
-      };
-      const res: Promise<PermissionResponse> = permission(oPostData);
-      res.then((response) => {
-        if (response !== null) {
-          Message.success(i18n.global.t('edit.success'));
-          router.push('/user/edit-info').then(() => {
-            router.go(0);
-          });
-        }
-      });
     });
   }
 
@@ -120,6 +110,7 @@ const useEditStore = defineStore('edit', () => {
             userInfo.phoneNumber = response.data.phone;
             userInfo.email = response.data.email;
             userInfo.roles = response.data.roles;
+            userInfo.groups = response.data.groups;
 
             editFormInfo.name = userInfo.name;
             editFormInfo.gender = userInfo.gender;
