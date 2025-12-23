@@ -44,6 +44,10 @@ const router = createRouter({
 
     ...appRoutes,
     NO_PERMISSION,
+    {
+      path: '/:pathMatch(.*)',
+      component: import('@/views/notFound/index.vue'),
+    },
   ],
   scrollBehavior() {
     return { top: 0 };
