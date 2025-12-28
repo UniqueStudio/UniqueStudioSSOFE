@@ -1,6 +1,7 @@
 export const enum LoginMethod {
   phone = 1,
   sms = 2,
+  email = 3,
 }
 
 export const enum Gender {
@@ -13,6 +14,7 @@ export interface LoginFormInfo {
   phoneNumber: string;
   validateCode: string;
   password: string;
+  email: string;
 }
 
 export interface LoginStore {

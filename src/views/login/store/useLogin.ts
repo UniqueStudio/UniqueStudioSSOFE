@@ -13,12 +13,17 @@ import {
 } from '@/constants/httpMsg/register/ValidateStatusMsg';
 import { LoginMethod, LoginStore } from '../type';
 
+export type validateAble = {
+  validate: () => Promise<ValidatedError>;
+};
+
 const useLoginStore = defineStore('login', {
   state: (): LoginStore => ({
     loginFormInfo: {
       phoneNumber: '',
       validateCode: '',
       password: '',
+      email: '',
     },
     loginMethod: LoginMethod.phone,
     isRegister: false,
@@ -29,16 +34,14 @@ const useLoginStore = defineStore('login', {
     setIsRegister(newVal: boolean) {
       this.isRegister = newVal;
     },
-    handleLogin(phoneLoginRef: any, smsLoginRef: any) {
-      // console.log(phoneLoginRef);
+    async handleLogin(formRef: validateAble) {
+      // console.log(formRef);
+      const err = await formRef.validate();
+      if (err) return;
 
       switch (this.loginMethod) {
         case LoginMethod.phone:
-          phoneLoginRef.validate().then((ValidatedError: ValidatedError) => {
-            if (ValidatedError) {
-              return;
-            }
-
+          {
             const oPostData = {
               phone: this.loginFormInfo.phoneNumber,
               password: this.loginFormInfo.password,
@@ -60,14 +63,10 @@ const useLoginStore = defineStore('login', {
                 // window.location.href = `https://5173.hustunique.com`;
               }
             });
-          });
+          }
           break;
         case LoginMethod.sms:
-          smsLoginRef.validate().then((ValidatedError: ValidatedError) => {
-            if (ValidatedError) {
-              return;
-            }
-
+          {
             const oPostData = {
               phone: this.loginFormInfo.phoneNumber,
               validate_code: this.loginFormInfo.validateCode,
@@ -89,9 +88,36 @@ const useLoginStore = defineStore('login', {
                 // window.location.href = `https://5173.hustunique.com`;
               }
             });
-          });
+          }
+          break;
+        case LoginMethod.email:
+          {
+            const oPostData = {
+              email: this.loginFormInfo.email,
+              password: this.loginFormInfo.password,
+            };
+            const res: Promise<LoginResponse> = ssoLogin(oPostData);
+            res.then((response) => {
+              if (response !== null) {
+                const hr = 'hr2024.hustunique.com';
+                const join = 'join2024.hustunique.com';
+                Message.success(i18n.global.t('login.success'));
+                const from = new URLSearchParams(window.location.search).get(
+                  'from',
+                );
+                if (from) {
+                  if (from === hr || from === join)
+                    window.location.href = `https://${from}`;
+                  else router.push('/user/edit-info');
+                } else router.push('/user/edit-info');
+                // window.location.href = `https://5173.hustunique.com`;
+              }
+            });
+          }
           break;
         default:
+          // eslint-disable-next-line no-console
+          console.error('不存在的loginMethod:', this.loginMethod);
           break;
       }
     },

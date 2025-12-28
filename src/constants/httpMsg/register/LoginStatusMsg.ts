@@ -5,6 +5,11 @@ export interface phoneLoginRequest {
   password: string;
 }
 
+export interface emailLoginRequest {
+  email: string;
+  password: string;
+}
+
 export interface smsLoginRequest {
   phone: string;
   validate_code: string;
