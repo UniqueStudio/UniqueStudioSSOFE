@@ -97,7 +97,7 @@
         allow-clear
       >
         <template #prefix>
-          <icon-message />
+          <img src="/qq-outline.svg" alt="qq" class="w-4 h-4" />
         </template>
       </a-input>
     </a-form-item>
