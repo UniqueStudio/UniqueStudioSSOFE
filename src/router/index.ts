@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
+import NotFound from '@/views/notFound/index.vue';
 import { LogoutResponse } from '@/constants/httpMsg/register/LogoutStatusMsg';
 import i18n from '@/locale';
 import { Message } from '@arco-design/web-vue';
@@ -46,7 +47,7 @@ const router = createRouter({
     NO_PERMISSION,
     {
       path: '/:pathMatch(.*)',
-      component: import('@/views/notFound/index.vue'),
+      component: NotFound,
     },
   ],
   scrollBehavior() {
