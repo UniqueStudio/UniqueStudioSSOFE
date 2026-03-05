@@ -11,6 +11,7 @@ import {
   ValidateCodeRequest,
   ValidateCodeResponse,
 } from '@/constants/httpMsg/register/ValidateStatusMsg';
+import { useEditStore } from '@/views/user/editInfo/store';
 import { LoginMethod, LoginStore } from '../type';
 
 export type validateAble = {
@@ -35,6 +36,21 @@ const useLoginStore = defineStore('login', {
       this.isRegister = newVal;
     },
     async handleLogin(formRef: validateAble) {
+      const { refresh } = useEditStore();
+      const jmpBack = () => {
+        const hr = 'hr2024.hustunique.com';
+        const join = 'join2024.hustunique.com';
+        Message.success(i18n.global.t('login.success'));
+        const from = new URLSearchParams(window.location.search).get('from');
+        if ((from && from === hr) || from === join) {
+          window.location.href = `https://${from}`;
+        } else {
+          refresh();
+          router.push('/user/edit-info');
+        }
+        // window.location.href = `https://5173.hustunique.com`;
+      };
+
       // console.log(formRef);
       const err = await formRef.validate();
       if (err) return;
@@ -49,18 +65,7 @@ const useLoginStore = defineStore('login', {
             const res: Promise<LoginResponse> = ssoLogin(oPostData);
             res.then((response) => {
               if (response !== null) {
-                const hr = 'hr2024.hustunique.com';
-                const join = 'join2024.hustunique.com';
-                Message.success(i18n.global.t('login.success'));
-                const from = new URLSearchParams(window.location.search).get(
-                  'from',
-                );
-                if (from) {
-                  if (from === hr || from === join)
-                    window.location.href = `https://${from}`;
-                  else router.push('/user/edit-info');
-                } else router.push('/user/edit-info');
-                // window.location.href = `https://5173.hustunique.com`;
+                jmpBack();
               }
             });
           }
@@ -74,18 +79,7 @@ const useLoginStore = defineStore('login', {
             const res: Promise<LoginResponse> = ssoLogin(oPostData);
             res.then((response) => {
               if (response !== null) {
-                const hr = 'hr2024.hustunique.com';
-                const join = 'join2024.hustunique.com';
-                Message.success(i18n.global.t('login.success'));
-                const from = new URLSearchParams(window.location.search).get(
-                  'from',
-                );
-                if (from) {
-                  if (from === hr || from === join)
-                    window.location.href = `https://${from}`;
-                  else router.push('/user/edit-info');
-                } else router.push('/user/edit-info');
-                // window.location.href = `https://5173.hustunique.com`;
+                jmpBack();
               }
             });
           }
@@ -99,18 +93,7 @@ const useLoginStore = defineStore('login', {
             const res: Promise<LoginResponse> = ssoLogin(oPostData);
             res.then((response) => {
               if (response !== null) {
-                const hr = 'hr2024.hustunique.com';
-                const join = 'join2024.hustunique.com';
-                Message.success(i18n.global.t('login.success'));
-                const from = new URLSearchParams(window.location.search).get(
-                  'from',
-                );
-                if (from) {
-                  if (from === hr || from === join)
-                    window.location.href = `https://${from}`;
-                  else router.push('/user/edit-info');
-                } else router.push('/user/edit-info');
-                // window.location.href = `https://5173.hustunique.com`;
+                jmpBack();
               }
             });
           }

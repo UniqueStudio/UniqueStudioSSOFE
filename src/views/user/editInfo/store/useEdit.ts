@@ -143,6 +143,7 @@ const useEditStore = defineStore('edit', () => {
     handleEdit,
     handlePermission,
     getUserInfo,
+    refresh: getUserInfo,
   };
 });
 
