@@ -11,9 +11,12 @@ import { SERVER_BASE_URL } from '@/constants';
 
 // const { t } = useI18n();
 
-export default function request<T = object>(config: AxiosRequestConfig) {
+export default function request<T = object>(
+  config: AxiosRequestConfig,
+  baseURL?: string,
+) {
   const instance: AxiosInstance = axios.create({
-    baseURL: SERVER_BASE_URL,
+    baseURL: baseURL ?? SERVER_BASE_URL,
     timeout: 60000,
     withCredentials: true,
   });

@@ -15,6 +15,7 @@ interface ViteTypeOptions {
 
 interface ImportMetaEnv {
   readonly VITE_SERVER_DOMAIN: string;
+  readonly VITE_HR_DOMAIN_BE: string;
   // 更多环境变量...
 }
 

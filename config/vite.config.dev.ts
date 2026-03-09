@@ -31,6 +31,31 @@ const devConfig: UserConfig = {
           // res.setHeader('Access-Control-Allow-Credentials', 'true');
         },
       },
+      '^/hrapi': {
+        target: 'https://dev.back.recruitment2023.hustunique.com',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/hrapi/, ''),
+        cookieDomainRewrite: {
+          // 返回的 cookie 的 domain 设置为 localhost
+          '*': 'localhost',
+        },
+        bypass(req, res) {
+          if (!res) return;
+
+          // const { origin } = req.headers;
+
+          // 这两个 header 不对会 403，故直接删掉
+          // 改成正确的可能更好，不过我懒
+          delete req.headers.origin;
+          delete req.headers.referer;
+
+          // 以下代码处理跨域情况，不过现在不跨域了所以不需要了
+          // if (origin) {
+          //   res.setHeader('Access-Control-Allow-Headers', origin);
+          // }
+          // res.setHeader('Access-Control-Allow-Credentials', 'true');
+        },
+      },
     },
   },
 };
