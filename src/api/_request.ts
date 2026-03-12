@@ -42,7 +42,17 @@ export default function request<T = object>(
         return data;
       }
       if (data.message) {
-        Message.error(data.message);
+        // 使用直接对象查表来处理包含特殊字符（如引号、括号）的复杂后端错误信息
+        const locale = (i18n.global.locale as any).value || i18n.global.locale;
+        const messages =
+          (i18n.global.messages as any).value || i18n.global.messages;
+        const backendMap = messages[locale]?.backend || {};
+        const translated =
+          backendMap[data.message] || i18n.global.t(`backend.${data.message}`);
+
+        Message.error(
+          translated === `backend.${data.message}` ? data.message : translated,
+        );
       } else {
         console.error('# error', { response });
         Message.error(i18n.global.t('request.unknowErr'));
@@ -52,7 +62,19 @@ export default function request<T = object>(
     (err: any): any => {
       console.error(err);
       if (err.response.data.message) {
-        Message.error(err.response.data.message);
+        const locale = (i18n.global.locale as any).value || i18n.global.locale;
+        const messages =
+          (i18n.global.messages as any).value || i18n.global.messages;
+        const backendMap = messages[locale]?.backend || {};
+        const translated =
+          backendMap[err.response.data.message] ||
+          i18n.global.t(`backend.${err.response.data.message}`);
+
+        Message.error(
+          translated === `backend.${err.response.data.message}`
+            ? err.response.data.message
+            : translated,
+        );
       } else {
         Message.error(err.message);
       }
