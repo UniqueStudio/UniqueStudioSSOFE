@@ -74,6 +74,7 @@ const useLoginStore = defineStore('login', {
           {
             const oPostData = {
               phone: this.loginFormInfo.phoneNumber,
+              email: this.loginFormInfo.email,
               validate_code: this.loginFormInfo.validateCode,
             };
             const res: Promise<LoginResponse> = ssoLogin(oPostData);
@@ -106,7 +107,7 @@ const useLoginStore = defineStore('login', {
     },
     handleValidateCode(loginFormRef: any) {
       loginFormRef
-        .validateField('phoneNumber')
+        .validateField(['phoneNumber', 'email'])
         .then((ValidatedError: ValidatedError) => {
           if (ValidatedError) {
             return;
@@ -114,6 +115,7 @@ const useLoginStore = defineStore('login', {
 
           const oPostData: ValidateCodeRequest = {
             phone: this.loginFormInfo.phoneNumber,
+            email: this.loginFormInfo.email,
           };
           const res: Promise<ValidateCodeResponse> =
             sendValidateCode(oPostData);

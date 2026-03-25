@@ -127,14 +127,28 @@
               <icon-phone />
             </template>
           </a-input>
-          <a-button
-            type="primary"
+        </a-form-item>
+        <a-form-item
+          field="email"
+          hide-label
+          :rules="[
+            { required: true, message: $t('login.form.email.errMsg') },
+            {
+              match: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+              message: $t('login.form.email.formatErr'),
+            },
+          ]"
+        >
+          <a-input
+            v-model="loginFormInfo.email"
             size="large"
-            :disabled="isSendValidateCode"
-            class="w-[160px]"
-            @click="handleValidateCode(smsLoginRef)"
-            >{{ buttonContent }}</a-button
+            :placeholder="$t('login.form.email.placeholder')"
+            allow-clear
           >
+            <template #prefix>
+              <icon-email />
+            </template>
+          </a-input>
         </a-form-item>
         <a-form-item
           field="validateCode"
@@ -157,6 +171,14 @@
               <icon-safe />
             </template>
           </a-input>
+          <a-button
+            type="primary"
+            size="large"
+            :disabled="isSendValidateCode"
+            class="w-[160px]"
+            @click="handleValidateCode(smsLoginRef)"
+            >{{ buttonContent }}</a-button
+          >
         </a-form-item>
       </a-form>
     </a-tab-pane>
