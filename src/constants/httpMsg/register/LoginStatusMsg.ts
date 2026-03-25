@@ -12,6 +12,7 @@ export interface emailLoginRequest {
 
 export interface smsLoginRequest {
   phone: string;
+  email: string;
   validate_code: string;
 }
 
